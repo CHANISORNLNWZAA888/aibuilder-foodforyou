@@ -2,12 +2,16 @@ import streamlit as st
 import pandas as pd
 from sentence_transformers import SentenceTransformer, util
 import torch
+import os
 
-# Load model with caching
+
 @st.cache_resource
 def load_model():
-    hf_token = st.secrets["hf_token"]
+    hf_token = os.environ.get("HF_TOKEN")
+    if not hf_token:
+        raise ValueError("HF_TOKEN environment variable not set")
     return SentenceTransformer("Chanisorn/thai-food-mpnet-tuned", use_auth_token=hf_token)
+
 
 # Load data with caching
 @st.cache_data
