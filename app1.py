@@ -6,6 +6,7 @@ import torch
 # Load model with caching
 @st.cache_resource
 def load_model():
+    hf_token = st.secrets["hf_token"]
     return SentenceTransformer("Chanisorn/thai-food-mpnet-tuned", use_auth_token=hf_token)
 
 # Load data with caching
