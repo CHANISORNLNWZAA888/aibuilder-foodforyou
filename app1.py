@@ -12,7 +12,7 @@ def load_model():
 # Load data with caching
 @st.cache_data
 def load_data():
-    return pd.read_csv("Copy of Copy of 500 lable แล้ว ไม่มีปริมาณ superclean + มีของคาวของหวาน + query - Sheet1.csv")
+    return pd.read_csv("thai_food_data.csv")
 
 # Embed corpus with caching — FIXED: renamed model to _model
 @st.cache_resource
