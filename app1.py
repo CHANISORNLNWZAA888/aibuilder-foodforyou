@@ -7,9 +7,7 @@ import os
 
 @st.cache_resource
 def load_model():
-    hf_token = os.environ.get("HF_TOKEN")
-    if not hf_token:
-        raise ValueError("HF_TOKEN environment variable not set")
+    hf_token = st.secrets["hf_token"]
     return SentenceTransformer("Chanisorn/thai-food-mpnet-tuned", use_auth_token=hf_token)
 
 
