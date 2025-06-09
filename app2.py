@@ -8,12 +8,12 @@ import torch
 import datetime
 import pytz
 
-# 🔐 Load secrets from .streamlit/secrets.toml
+# Secrets
 HF_TOKEN = st.secrets["api"]["hf_token"]
 GOOGLE_API_KEY = st.secrets["api"]["google_api_key"]
 CSE_ID = st.secrets["api"]["cse_id"]
 
-# 🎯 Greeting logic (ใช้เวลาไทย)
+# Greeting
 def get_time_greeting():
     tz = pytz.timezone("Asia/Bangkok")
     now = datetime.datetime.now(tz).time()
@@ -26,7 +26,7 @@ def get_time_greeting():
     else:
         return "🌙 ดึกแล้วน้า~ แต่ถ้าหิวก็มาหาเมนูกินกัน!"
 
-# ✅ Load models and data
+# Load models and data
 @st.cache_resource
 def load_search_model():
     return SentenceTransformer("Chanisorn/thai-food-mpnet-new-v8", use_auth_token=HF_TOKEN)
@@ -42,7 +42,7 @@ def load_data():
 def embed_corpus(_model, texts):
     return _model.encode(texts, convert_to_tensor=True)
 
-# 🔍 Google image search
+# Google image search
 def google_image_search(query, num_images=1):
     url = "https://www.googleapis.com/customsearch/v1"
     params = {
@@ -58,7 +58,6 @@ def google_image_search(query, num_images=1):
         return [item["link"] for item in data["items"]]
     return []
 
-# ✅ ปรับขนาดรูปภาพเหลือ 80% และจัดกลาง
 def display_images(image_urls):
     for url in image_urls:
         try:
@@ -73,13 +72,13 @@ def display_images(image_urls):
         except Exception:
             st.write("❌ ไม่สามารถโหลดรูปภาพได้")
 
-# ✅ Load all resources
+# Load all resources
 search_model = load_search_model()
 df = load_data()
 corpus_texts = (df["วัตถุดิบ_ไม่มีปริมาณ"].fillna("") + " " + df["query1 อยากกินอาหารครบ"].fillna("")).tolist()
 corpus_embeddings = embed_corpus(search_model, corpus_texts)
 
-# 🌐 UI styling
+# UI styling
 st.markdown("""
     <style>
         .greeting {
@@ -97,7 +96,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 👋 Greeting section
+# Greeting section
 if "query_sent" not in st.session_state:
     st.session_state.query_sent = False
 
@@ -105,13 +104,13 @@ if not st.session_state.query_sent:
     greeting = get_time_greeting()
     st.markdown(f"<div class='greeting'>{greeting}</div>", unsafe_allow_html=True)
 
-# 📥 Input section
+# Input section
 query = st.text_input("กรอกชื่อเมนูหรือส่วนผสมที่อยากกิน 👇")
 
 if query:
     st.session_state.query_sent = True
 
-    # 🔍 Find similar dishes
+    # Find similar dishes
     query_embedding = search_model.encode(query, convert_to_tensor=True)
     scores = util.cos_sim(query_embedding, corpus_embeddings)[0]
     top_k = min(3, len(df))
