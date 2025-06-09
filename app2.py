@@ -9,9 +9,9 @@ import datetime
 import pytz
 
 # API Keys
-HF_TOKEN = st.secrets["api"]["hf_token"]
-GOOGLE_API_KEY = st.secrets["api"]["google_api_key"]
-CSE_ID = st.secrets["api"]["cse_id"]
+HF_TOKEN = st.secrets["hf_token"]
+GOOGLE_API_KEY = st.secrets["google_api_key"]
+CSE_ID = st.secrets["cse_id"]
 
 
 # Greeting 
