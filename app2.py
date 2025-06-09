@@ -8,13 +8,12 @@ import torch
 import datetime
 import pytz
 
-# API Keys
-HF_TOKEN = st.secrets["hf_token"]
-GOOGLE_API_KEY = st.secrets["google_api_key"]
-CSE_ID = st.secrets["cse_id"]
+# 🔐 Load secrets from .streamlit/secrets.toml
+HF_TOKEN = st.secrets["api"]["hf_token"]
+GOOGLE_API_KEY = st.secrets["api"]["google_api_key"]
+CSE_ID = st.secrets["api"]["cse_id"]
 
-
-# Greeting 
+# 🎯 Greeting logic (ใช้เวลาไทย)
 def get_time_greeting():
     tz = pytz.timezone("Asia/Bangkok")
     now = datetime.datetime.now(tz).time()
@@ -27,20 +26,20 @@ def get_time_greeting():
     else:
         return "🌙 ดึกแล้วน้า~ แต่ถ้าหิวก็มาหาเมนูกินกัน!"
 
-# Load models and data
+# ✅ Load models and data
 @st.cache_resource
 def load_search_model():
     return SentenceTransformer("Chanisorn/thai-food-mpnet-new-v8", use_auth_token=HF_TOKEN)
 
 @st.cache_data
 def load_data():
-    return pd.read_csv("thai_food_data2.csv")
+    return pd.read_csv("thai_food_data.csv")
 
 @st.cache_resource
 def embed_corpus(_model, texts):
     return _model.encode(texts, convert_to_tensor=True)
 
-# Google image search
+# 🔍 Google image search
 def google_image_search(query, num_images=1):
     url = "https://www.googleapis.com/customsearch/v1"
     params = {
@@ -56,7 +55,7 @@ def google_image_search(query, num_images=1):
         return [item["link"] for item in data["items"]]
     return []
 
-# ปรับขนาดรูปภาพเหลือ 80% และจัดกลาง
+# ✅ ปรับขนาดรูปภาพเหลือ 80% และจัดกลาง
 def display_images(image_urls):
     for url in image_urls:
         try:
@@ -71,18 +70,18 @@ def display_images(image_urls):
         except Exception:
             st.write("❌ ไม่สามารถโหลดรูปภาพได้")
 
-# Load all resources
+# ✅ Load all resources
 search_model = load_search_model()
 df = load_data()
 corpus_texts = (df["วัตถุดิบ_ไม่มีปริมาณ"].fillna("") + " " + df["query1 อยากกินอาหารครบ"].fillna("")).tolist()
 corpus_embeddings = embed_corpus(search_model, corpus_texts)
 
-# UI styling 
+# 🌐 UI styling
 st.markdown("""
     <style>
         .greeting {
             font-size: 28px;
-            color: var(--text-color);  /* 👈 Match current theme */
+            color: var(--text-color);
             text-align: center;
             animation: fadeIn 2s ease-in-out;
             margin-top: 50px;
@@ -124,3 +123,4 @@ if query:
         st.markdown(f"- 🧂 **ส่วนผสม:** {row.get('วัตถุดิบ_ไม่มีปริมาณ', 'ไม่ระบุ')}")
         image_urls = google_image_search(dish_name, num_images=1)
         display_images(image_urls)
+
