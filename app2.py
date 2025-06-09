@@ -33,7 +33,10 @@ def load_search_model():
 
 @st.cache_data
 def load_data():
-    return pd.read_csv("thai_food_data.csv")
+    df_main = pd.read_csv("thai_food_data.csv")
+    df_recipe = pd.read_csv("recipe_original.csv")
+    df_merged = pd.merge(df_main, df_recipe[["ชื่ออาหาร", "วิธีทำ"]], on="ชื่ออาหาร", how="left")
+    return df_merged
 
 @st.cache_resource
 def embed_corpus(_model, texts):
@@ -119,8 +122,15 @@ if query:
     for idx in results.indices:
         row = df.iloc[idx.item()]
         dish_name = row["ชื่ออาหาร"]
+        ingredients = row.get("วัตถุดิบ_ไม่มีปริมาณ", "ไม่ระบุ")
+        method = row.get("วิธีทำ", "ยังไม่มีข้อมูลวิธีทำ")
+
         st.markdown(f"### 🍽️ {dish_name}")
-        st.markdown(f"- 🧂 **ส่วนผสม:** {row.get('วัตถุดิบ_ไม่มีปริมาณ', 'ไม่ระบุ')}")
+        st.markdown(f"- 🧂 **ส่วนผสม:** {ingredients}")
+        st.markdown(f"- 🍳 **วิธีทำ:** {method}")
+
         image_urls = google_image_search(dish_name, num_images=1)
         display_images(image_urls)
+        display_images(image_urls)
+
 
