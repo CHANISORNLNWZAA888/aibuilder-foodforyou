@@ -130,6 +130,6 @@ if query:
 
         image_urls = google_image_search(dish_name, num_images=1)
         display_images(image_urls)
-        display_images(image_urls)
+       
 
 
