@@ -30,7 +30,7 @@ st.markdown("""
             -webkit-background-clip: text;
             color: transparent;
             animation: rainbow 20s linear infinite;  /* ← ทำให้แอนิเมชันช้าลงจาก 8s → 20s */
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         @keyframes rainbow {
