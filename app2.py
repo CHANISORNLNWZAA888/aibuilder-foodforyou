@@ -8,6 +8,39 @@ import torch
 import datetime
 import pytz
 
+# 🌈 Rainbow Title
+st.markdown("""
+    <style>
+        .rainbow-text {
+            font-size: 42px;
+            font-weight: bold;
+            text-align: center;
+            background-image: linear-gradient(
+                90deg,
+                red,
+                orange,
+                yellow,
+                green,
+                cyan,
+                blue,
+                violet
+            );
+            background-size: 400%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: rainbow 8s linear infinite;
+            margin-top: 20px;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% }
+            100% { background-position: 400% }
+        }
+    </style>
+    <div class="rainbow-text">Food For You</div>
+""", unsafe_allow_html=True)
+
 # Secrets
 HF_TOKEN = st.secrets["api"]["hf_token"]
 GOOGLE_API_KEY = st.secrets["api"]["google_api_key"]
@@ -130,6 +163,7 @@ if query:
 
         image_urls = google_image_search(dish_name, num_images=1)
         display_images(image_urls)
+
        
 
 
