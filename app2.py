@@ -12,7 +12,7 @@ import pytz
 st.markdown("""
     <style>
         .rainbow-text {
-            font-size: 42px;
+            font-size: 54px; /* ← ขยายขนาดใหญ่ขึ้น */
             font-weight: bold;
             text-align: center;
             background-image: linear-gradient(
@@ -29,7 +29,7 @@ st.markdown("""
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            animation: rainbow 8s linear infinite;
+            animation: rainbow 20s linear infinite;  /* ← ทำให้แอนิเมชันช้าลงจาก 8s → 20s */
             margin-top: 20px;
         }
 
