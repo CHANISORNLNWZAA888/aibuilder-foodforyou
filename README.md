@@ -10,7 +10,7 @@ Recipe_to_nutrition_ใช้จริง.ipynb
 
 recipe_to_nutrition_ภาคต่อ.ipynb
 
-โดยทั้งสองอันนี้ใช้ไฟล์ csv ingredientdnewnew.csv, เมนูไม่มีจุดแล้ว.csv
+โดยทั้งสองอันนี้ใช้ไฟล์ csv = ingredientdnewnew.csv, เมนูไม่มีจุดแล้ว.csv
 
 notebook
 
@@ -18,7 +18,8 @@ notebook
 
 Copy of 500 lable แล้ว ไม่มีปริมาณ superclean + มีของคาวของหวาน + queryครบ - Sheet1.csv
 
+โดยโมเดลนี้จะได้ https://huggingface.co/Chanisorn/thai-food-mpnet-new-v8
+
+notebook อื่นๆ คือ notebook ที่ลองจนกว่าจะเป็นตัว thai-food-mpnet-new-v8
 
 ลองเล่น deploy https://aibuilder-foodforyou-zf3xejfktrfstrjezanotx.streamlit.app
-
-ดู model https://huggingface.co/Chanisorn/thai-food-mpnet-new-v8
