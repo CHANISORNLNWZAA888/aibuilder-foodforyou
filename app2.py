@@ -93,7 +93,7 @@ st.markdown("""
         }
 
         .rainbow-header {
-            font-size: 45px;
+            font-size: 60px;
             font-weight: bold;
             text-align: center;
             animation: rainbow 10s infinite;
