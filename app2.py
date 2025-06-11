@@ -78,22 +78,54 @@ df = load_data()
 corpus_texts = (df["วัตถุดิบ_ไม่มีปริมาณ"].fillna("") + " " + df["query1 อยากกินอาหารครบ"].fillna("")).tolist()
 corpus_embeddings = embed_corpus(search_model, corpus_texts)
 
-# UI styling
+# UI styling and header
 st.markdown("""
     <style>
+        @keyframes rainbow {
+            0% { color: red; }
+            14% { color: orange; }
+            28% { color: yellow; }
+            42% { color: green; }
+            57% { color: blue; }
+            71% { color: indigo; }
+            85% { color: violet; }
+            100% { color: red; }
+        }
+
+        .rainbow-header {
+            font-size: 45px;
+            font-weight: bold;
+            text-align: center;
+            animation: rainbow 10s infinite;
+            margin-top: 30px;
+        }
+
+        .sub-description {
+            font-size: 18px;
+            text-align: center;
+            margin-top: 10px;
+            color: #555;
+        }
+
         .greeting {
             font-size: 28px;
             color: var(--text-color);
             text-align: center;
             animation: fadeIn 2s ease-in-out;
-            margin-top: 50px;
+            margin-top: 30px;
             margin-bottom: 30px;
         }
+
         @keyframes fadeIn {
             0% { opacity: 0; transform: translateY(-10px); }
             100% { opacity: 1; transform: translateY(0); }
         }
     </style>
+
+    <div class='rainbow-header'>Food for You</div>
+    <div class='sub-description'>
+        AI แนะนำเมนูที่ถูกใจคุณจากวัตถุดิบที่เหลือในบ้าน ใส่วัตถุดิบในบ้าน ก็พร้อม!
+    </div>
 """, unsafe_allow_html=True)
 
 # Greeting section
@@ -104,8 +136,11 @@ if not st.session_state.query_sent:
     greeting = get_time_greeting()
     st.markdown(f"<div class='greeting'>{greeting}</div>", unsafe_allow_html=True)
 
-# Input section
-query = st.text_input("กรอกชื่อเมนูหรือส่วนผสมที่อยากกิน 👇")
+# Input section with examples
+query = st.text_input(
+    "กรอกชื่อเมนูหรือส่วนผสมที่อยากกิน 👇",
+    placeholder="ตัวอย่าง: มีกุ้งตัวใหญ่ๆ ตะไคร้ ใบมะกรูด อยากกินเมนูน้ำ ไขมันน้อย, อยากทำอาหารโบราณ ตอนนี้มีหมู กะทิ ใบโหระพา มะเขือเทศ กุ้งแห้ง"
+)
 
 if query:
     st.session_state.query_sent = True
