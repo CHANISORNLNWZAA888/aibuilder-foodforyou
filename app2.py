@@ -129,12 +129,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Greeting 
-if "query_sent" not in st.session_state:
-    st.session_state.query_sent = False
-
-if not st.session_state.query_sent:
-    greeting = get_time_greeting()
-    st.markdown(f"<div class='greeting'>{greeting}</div>", unsafe_allow_html=True)
+greeting = get_time_greeting()
+st.markdown(f"<div class='greeting'>{greeting}</div>", unsafe_allow_html=True)
 
 # Input
 query = st.text_input(
