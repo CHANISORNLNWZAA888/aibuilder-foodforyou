@@ -34,7 +34,7 @@ def load_search_model():
 @st.cache_data
 def load_data():
     df_main = pd.read_csv("thai_food_data.csv")
-    df_recipe = pd.read_csv("เมนูอาหารรวมพิมพ์ - recipe_original.csv")
+    df_recipe = pd.read_csv("recipe_originalxpim.csv")
     df_merged = pd.merge(df_main, df_recipe[["ชื่ออาหาร", "วิธีทำ"]], on="ชื่ออาหาร", how="left")
     return df_merged
 
