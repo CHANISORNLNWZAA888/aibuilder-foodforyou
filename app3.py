@@ -144,7 +144,7 @@ if query:
     # Find similar dishes
     query_embedding = search_model.encode(query, convert_to_tensor=True)
     scores = util.cos_sim(query_embedding, corpus_embeddings)[0]
-       st.subheader("📌 เมนูที่แนะนำ:")
+    st.subheader("📌 เมนูที่แนะนำ:")
 
     top_k_pool = min(15, len(df))  # ดึงมาเยอะหน่อยไว้กรองซ้ำ
     results = torch.topk(scores, k=top_k_pool)
