@@ -144,14 +144,24 @@ if query:
     # Find similar dishes
     query_embedding = search_model.encode(query, convert_to_tensor=True)
     scores = util.cos_sim(query_embedding, corpus_embeddings)[0]
-    top_k = min(3, len(df))
-    results = torch.topk(scores, k=top_k)
+       st.subheader("📌 เมนูที่แนะนำ:")
 
-    st.subheader("📌 เมนูที่แนะนำ:")
+    top_k_pool = min(15, len(df))  # ดึงมาเยอะหน่อยไว้กรองซ้ำ
+    results = torch.topk(scores, k=top_k_pool)
+
+    seen_names = set()
+    shown = 0
 
     for idx in results.indices:
         row = df.iloc[idx.item()]
-        dish_name = row["ชื่ออาหาร"]
+        dish_name = row["ชื่ออาหาร"].strip()
+
+        if dish_name in seen_names:
+            continue  # ข้ามถ้าชื่อซ้ำ
+
+        seen_names.add(dish_name)
+        shown += 1
+
         ingredients = row.get("วัตถุดิบ_ไม่มีปริมาณ", "ไม่ระบุ")
         method = row.get("วิธีทำ", "ยังไม่มีข้อมูลวิธีทำ")
 
@@ -161,5 +171,8 @@ if query:
 
         image_urls = google_image_search(dish_name, num_images=1)
         display_images(image_urls)
+
+        if shown == 3:
+            break  # ครบ 3 เมนูที่ไม่ซ้ำแล้ว
 
        
