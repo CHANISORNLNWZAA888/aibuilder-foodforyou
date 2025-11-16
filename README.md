@@ -17,3 +17,5 @@ notebook
 notebook อื่นๆ คือ notebook ที่ลองจนกว่าจะเป็นตัว thai-food-mpnet-new-v8
 
 ลองเล่น deploy https://aibuilder-foodforyou-zf3xejfktrfstrjezanotx.streamlit.app
+
+อ่านบทความเพิ่มเติม https://medium.com/@chanisorn.siri/food-for-you-thai-food-semantic-search-60cb98ae7f0e
